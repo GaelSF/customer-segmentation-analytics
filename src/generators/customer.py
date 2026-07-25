@@ -1,15 +1,39 @@
 import pandas as pd
-
 from generators.membership import generate_membership
+from generators.demographics import (
+    generate_gender,
+    generate_age,
+    generate_state,
+    generate_city
+)
 
 
 def generate_customer(customer_id: int) -> dict:
+    """
+    Generate one synthetic customer.
+    """
 
-    return {
+    membership = generate_membership()
+
+    state = generate_state()
+
+    customer = {
+
         "customer_id": customer_id,
-        "membership": generate_membership()
+
+        "membership": membership,
+
+        "gender": generate_gender(),
+
+        "age": generate_age(),
+
+        "state": state,
+
+        "city": generate_city(state)
+
     }
 
+    return customer
 
 def generate_dataset(n_customers: int) -> pd.DataFrame:
 
