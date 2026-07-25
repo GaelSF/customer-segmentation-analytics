@@ -6,6 +6,15 @@ from generators.demographics import (
     generate_state,
     generate_city
 )
+from generators.finance import (
+    generate_income,
+    generate_credit_limit,
+    generate_transactions,
+    generate_average_ticket,
+    generate_total_spending
+)
+
+
 
 
 def generate_customer(customer_id: int) -> dict:
@@ -14,6 +23,18 @@ def generate_customer(customer_id: int) -> dict:
     """
 
     membership = generate_membership()
+
+    annual_income = generate_income(
+    membership
+    )
+
+    transactions = generate_transactions(
+    membership
+    )
+
+    average_ticket = generate_average_ticket(
+    membership
+    )
 
     state = generate_state()
 
@@ -29,7 +50,26 @@ def generate_customer(customer_id: int) -> dict:
 
         "state": state,
 
-        "city": generate_city(state)
+        "city": generate_city(state),
+
+        "annual_income": annual_income,
+
+        "credit_limit": generate_credit_limit(
+            membership,
+            annual_income
+        ),
+
+        "monthly_transactions": transactions,
+
+        "average_ticket": round(
+            average_ticket,
+            2
+        ),
+
+        "monthly_spending": generate_total_spending(
+            transactions,
+            average_ticket
+        )
 
     }
 
